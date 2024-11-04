@@ -4,47 +4,30 @@ import { useState } from "react";
 import AudioRecorder from "../components/AudioRecorder";
 import Question from "../components/Question";
 import InterviewLayout from "../components/InterviewLayout";
+import interviewQuestions from "../../../interview-simulator-backend/interviewQuestions.json";
 
-const mockQuestions = [
-  {
-    id: 1,
-    question: "Tell me about yourself and your background.",
-    category: "Introduction",
-    tips: [
-      "Focus on professional experiences",
-      "Keep it under 2 minutes",
-      "Highlight key achievements",
-    ],
-  },
-  {
-    id: 2,
-    question: "What are your greatest professional strengths?",
-    category: "Skills",
-    tips: [
-      "Provide specific examples",
-      "Align with job requirements",
-      "Be honest and confident",
-    ],
-  },
-  {
-    id: 3,
-    question: "Where do you see yourself in five years?",
-    category: "Career Goals",
-    tips: ["Show ambition", "Be realistic", "Connect with the role"],
-  },
-];
+const questions = interviewQuestions["BEHAVIORAL QUESTIONS"].map((q) => ({
+  id: q.id,
+  question: q.question,
+  category: "Behavioral",
+  tips: [
+    "Consider using the STAR method",
+    "Be specific and concise",
+    "Focus on positive outcomes",
+  ],
+}));
 
 export default function InterviewPage() {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
 
   const handleNextQuestion = () => {
-    if (currentQuestionIndex < mockQuestions.length - 1) {
+    if (currentQuestionIndex < questions.length - 1) {
       setCurrentQuestionIndex((prev) => prev + 1);
     }
   };
 
-  const progress = ((currentQuestionIndex + 1) / mockQuestions.length) * 100;
-  const currentQuestion = mockQuestions[currentQuestionIndex];
+  const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
+  const currentQuestion = questions[currentQuestionIndex];
 
   return (
     <div className="min-h-screen bg-red-950">
@@ -52,7 +35,7 @@ export default function InterviewPage() {
         <div className="max-w-4xl mx-auto p-6 text-gray-100">
           {/* Question counter */}
           <div className="text-sm font-medium text-gray-400 mb-8">
-            Question {currentQuestionIndex + 1} of {mockQuestions.length}
+            Question {currentQuestionIndex + 1} of {questions.length}
           </div>
 
           {/* Main interview area */}
@@ -94,7 +77,7 @@ export default function InterviewPage() {
             </button>
             <button
               onClick={handleNextQuestion}
-              disabled={currentQuestionIndex === mockQuestions.length - 1}
+              disabled={currentQuestionIndex === questions.length - 1}
               className="px-4 py-2 text-white bg-blue-600 rounded-md disabled:opacity-50 hover:bg-blue-700 transition-colors"
             >
               Next Question
